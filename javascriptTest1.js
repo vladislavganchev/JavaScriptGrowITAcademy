@@ -1,3 +1,4 @@
+//We should find the extension of the file. It is located after the last "." sign. 
 let input = "myFile.exe";
 function findExtension(str) {
     let result = str.split('.').pop();

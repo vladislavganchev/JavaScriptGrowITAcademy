@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style type="text/css">
+        body {
+            font-family: 'Arial', sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        div {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 300px;
+        }
+
+        button {    
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.3s ease;
+            margin-left: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 400px;
+        }
+        li.completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        li button {
+        }
+
+        span {
+            color: #000;
+            font-weight: bold;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+
+<h1>My ToDo List</h1>
+<div>
+    <label for="item">Unpaid job description:</label>
+    <input type="text" id="item" name="item" />
+    <button>Add</button>
+</div>
+<ul class="currentItems">
+</ul>
+<button id="deleteCompleted">Delete Completed</button>
+<button id="deleteAll">Delete All Items</button>
+
+<script>
+    const addButton = document.querySelector('button');
+    const input = document.getElementById('item');
+    const unorderedList = document.getElementsByClassName('currentItems')[0];
+
+    function toggleDoneState(todoItem){
+        // Check the current state
+
+        let state = todoItem.className;
+
+        const isNotDone = state === 'none';
+        todoItem.className = isNotDone ? 'completed' : 'none';
+
+        const doneButton = todoItem.getElementsByClassName('styleButton')[0];
+        doneButton.textContent = isNotDone ? 'Undone' : 'Done';
+
+    }
+
+
+    addButton.addEventListener('click', () => {
+        let inputValue = input.value;
+        input.value = "";
+
+
+        const span = document.createElement('span');
+        span.textContent = inputValue;
+        span.style.color = 'red';
+        span.style.paddingRight = '2rem';
+
+        const listElement = document.createElement('li');
+        listElement.className = 'none';
+        listElement.appendChild(span);
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = "delete";
+
+        // Add the delete button to the list element
+        listElement.appendChild(deleteButton);
+
+        unorderedList.appendChild(listElement);
+
+        deleteButton.addEventListener('click', (e) => {
+            console.log(e.target === deleteButton);
+           unorderedList.removeChild(listElement);
+        });
+
+        // Done button
+        const doneButton = document.createElement('button');
+
+        doneButton.textContent = "Done";
+        doneButton.setAttribute('class', 'styleButton');
+
+        // Add the delete button to the list element
+        listElement.appendChild(doneButton);
+
+        doneButton.addEventListener('click', () => {
+            toggleDoneState(listElement);
+        });
+
+        const deleteAllButton = document.getElementById('deleteAll');
+
+        deleteAllButton.addEventListener('click', () => {
+            while(unorderedList.firstChild){
+                unorderedList.removeChild(unorderedList.firstChild);
+            }
+        });
+    });
+
+</script>
+
+</body>
+</html>

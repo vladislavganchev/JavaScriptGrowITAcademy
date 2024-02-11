@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>My To Do List</title>
+
+    <link rel="stylesheet" href="toDoListStyle.css">
+
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+    <h1>My To Do List</h1>
+    <div>
+        <label for="item">Unpaid job description:</label>
+        <input type="text" id="item" name="item" />
+        <button id="addButton">Add</button>
+        <button id="deleteCompleted">Delete Completed</button>
+        <button id="deleteAll">Delete All</button>
+    </div>
+
+    <ul class="currentItems">
+    </ul>
+
+    <script>
+        $(document).ready(function() {
+            $("#addButton").on("click", addTask);
+
+            //Listen for the "Enter" key press on the input field
+            $("#item").keypress(function(event) {
+                if (event.key === "Enter") {
+                    addTask();
+                }
+            });
+
+            function addTask() {
+                const ulList = $(".currentItems");
+                let inputValue = $("#item").val().trim();
+
+                if (inputValue === "") {
+                    alert("Please enter a task description!");
+                } else {
+                    ulList.append(`<li><span>${inputValue}</span><button class="upBtn">Move up</button><button class="downBtn">Move down</button></li>`);
+                    $("#item").val("");
+                    rewireBtns();
+                }
+            }
+        })
+       
+        function rewireBtns() {
+            // Remove existing event handlers to prevent duplicates
+            $(".upBtn").off('click');
+            $(".downBtn").off('click');
+
+            // Move up functionality
+            $(".upBtn").on('click', function() {
+                const li = $(this).parent();
+                li.insertBefore(li.prev());
+                disableEnableButtons();
+            });
+
+            // Move down functionality
+            $(".downBtn").on('click', function() {
+                const li = $(this).parent();
+                li.insertAfter(li.next());
+                disableEnableButtons();
+            });
+
+            disableEnableButtons(); // Call this to set up the initial state of the buttons
+
+            function disableEnableButtons() {
+                $(".upBtn").prop('disabled', false);
+                $(".downBtn").prop('disabled', false);
+                // Disable the up button for the first item and the down button for the last item
+                $(".currentItems li:first-child .upBtn").prop('disabled', true);
+                $(".currentItems li:last-child .downBtn").prop('disabled', true);
+            }
+        }
+        </script>
+
+</body>
+</html>

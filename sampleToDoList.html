@@ -59,11 +59,11 @@
             width: 400px;
         }
         li.completed {
-            text-decoration: line-through;
             opacity: 0.6;
         }
 
-        li button {
+        .task-completed {
+            text-decoration: line-through;
         }
 
         span {
@@ -92,22 +92,35 @@
     const unorderedList = document.getElementsByClassName('currentItems')[0];
 
     function toggleDoneState(todoItem){
-        // Check the current state
+        // Fint the span element that contains the task text
 
-        let state = todoItem.className;
+        const taskText = todoItem.querySelector('span');
+        const isNotDone = todoItem.className !== 'completed';
 
-        const isNotDone = state === 'none';
+        // Toggle the class on the li for background styling if needed
         todoItem.className = isNotDone ? 'completed' : 'none';
+        
+        if (isNotDone){
+            taskText.classList.add('task-completed');
+        } else {
+            taskText.classList.remove('task-completed');
+        }
 
-        const doneButton = todoItem.getElementsByClassName('styleButton')[0];
+        const doneButton = todoItem.querySelector('.styleButton');
         doneButton.textContent = isNotDone ? 'Undone' : 'Done';
 
     }
 
 
     addButton.addEventListener('click', () => {
-        let inputValue = input.value;
-        input.value = "";
+        
+        let inputValue = input.value.trim();
+
+        //Check if the input is empty after trimming
+        if (inputValue === ''){
+            alert('Please enter a task description');
+            return;
+        }
 
 
         const span = document.createElement('span');
@@ -143,6 +156,14 @@
 
         doneButton.addEventListener('click', () => {
             toggleDoneState(listElement);
+        });
+
+        const deleteCompletedButton = document.getElementById('deleteCompleted');
+        deleteCompletedButton.addEventListener('click', () => {
+            const completedItems = document.querySelectorAll('.completed');
+            for (let i = 0; i < completedItems.length; i++){
+                completedItems[i].remove();
+            }
         });
 
         const deleteAllButton = document.getElementById('deleteAll');

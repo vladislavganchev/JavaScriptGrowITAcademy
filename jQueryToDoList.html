@@ -27,7 +27,9 @@
     </ul>
 
     <script>
+        //Ensure jQuery only runs after the document is fully loaded
         $(document).ready(function() {
+            //Listen for click on the "Add" button to add new task
             $("#addButton").on("click", addTask);
 
             //Listen for the "Enter" key press on the input field
@@ -44,8 +46,11 @@
                 if (inputValue === "") {
                     alert("Please enter a task description!");
                 } else {
+                    //Append new task with move up and down buttons to the list
                     ulList.append(`<li><span>${inputValue}</span><button class="upBtn">Move up</button><button class="downBtn">Move down</button></li>`);
+                    //Clear input field
                     $("#item").val("");
+                    //Setup button functionalities
                     rewireBtns();
                 }
             }

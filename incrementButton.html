@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Buttons Press Counter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+    </head>
+    <body>
+        <button id="incrementButton">Increment</button>
+        <p id="countDisplay">Button presses: 0</p>
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            const counterDisplay = document.getElementById('countDisplay');
+            let counter = 0;
+            
+            document.getElementById('incrementButton').addEventListener('click', function() {
+                counter++;
+                counterDisplay.textContent = `Button presses: ${counter}`;
+            });
+        });
+    </script>
+    </body>
+</head>
+</html>

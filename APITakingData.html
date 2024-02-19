@@ -1,0 +1,26 @@
+<!DOCTYPED html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>API Data Taking</title>
+</head>
+<body>
+    <div id="apiData">Loading data...</div>
+    <script>
+        $.ajax({
+            url: 'https://api.sampleapis.com/beers/ale',
+            type: 'GET',
+            success: function(data) {
+                    var dataList = '<ul>';
+                    data.forEach(function(beer) {
+                    dataList += '<li>' + beer.name + beer.brewery + '</li>';
+                    });
+                    dataList += '</ul>';
+                    document.getElementById('apiData').innerHTML = dataList;
+                    }
+                });
+        </script>
+</body>
+</html>
